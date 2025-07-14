@@ -1,5 +1,7 @@
 const canvas = document.getElementById('romantic-canvas');
+console.log('Canvas element:', canvas);
 const ctx = canvas.getContext('2d');
+console.log('Canvas context:', ctx);
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -8,10 +10,10 @@ const particles = [];
 const letters = [];
 
 const rose_image = new Image();
-rose_image.src = 'https://i.pinimg.com/originals/2c/6c/8d/2c6c8d7b2a121c604e5a3f36151a689c.png';
+rose_image.src = 'https://i.imgur.com/g6D2G3p.png';
 
 const heart_image = new Image();
-heart_image.src = 'https://i.pinimg.com/originals/8a/a5/8d/8aa58d0554b4e5a0e3c5f2be7e1c8b35.png';
+heart_image.src = 'https://i.imgur.com/C1B4O5v.png';
 
 
 function Particle(x, y, size, type) {
@@ -35,9 +37,13 @@ function Particle(x, y, size, type) {
 
     this.draw = function() {
         if (this.type === 'rose') {
-            ctx.drawImage(rose_image, this.x, this.y, this.size, this.size);
+            ctx.fillStyle = 'red';
+            ctx.fillRect(this.x, this.y, this.size, this.size);
         } else {
-            ctx.drawImage(heart_image, this.x, this.y, this.size, this.size);
+            ctx.fillStyle = 'pink';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
+            ctx.fill();
         }
     };
 }
@@ -61,10 +67,14 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-init();
-animate();
+window.addEventListener('load', function() {
+    init();
+    animate();
+});
 
 window.addEventListener('resize', function() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    particles = [];
+    init();
 });
